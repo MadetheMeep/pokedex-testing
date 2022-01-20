@@ -29,7 +29,7 @@ df_poke.columns.name = None
 # Bokeh libraries
 from bokeh.io import curdoc
 from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource, Select, Range1d
+from bokeh.models import ColumnDataSource, Select, Range1d, HoverTool
 from bokeh.layouts import row, column, gridplot, widgetbox
 from bokeh.models.widgets import Tabs, Panel
 from bokeh.transform import dodge
@@ -43,6 +43,13 @@ source2 = ColumnDataSource(data={
     "x" : df_poke["stats"],
     "y" : df_poke["Arceus"]
 })
+
+"""Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)"""
+
+"""tooltips = [
+            ('Ket','$x'),
+            ('Power', '$y{0}'),
+           ]"""
 
 #Initiate tools for figure
 select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
@@ -77,6 +84,9 @@ fig.vbar(x = dodge('x', 0.15, range = fig.x_range),
          legend_label = "Pokemon 2",
          muted_alpha=0.2
         )
+
+# Menambahkan Hover
+""""fig.add_tools(HoverTool(tooltips=tooltips))"""
 
 #Set Legend
 fig.legend.click_policy = "mute"
