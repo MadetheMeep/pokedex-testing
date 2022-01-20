@@ -36,19 +36,19 @@ from bokeh.transform import dodge
 
 #Initiate Sources
 source1 = ColumnDataSource(data={
-    "x" : df_poke_new_new["stats"],
-    "y" : df_poke_new_new["Charizard"]
+    "x" : df_poke["stats"],
+    "y" : df_poke["Charizard"]
 })
 source2 = ColumnDataSource(data={
-    "x" : df_poke_new_new["stats"],
-    "y" : df_poke_new_new["Arceus"]
+    "x" : df_poke["stats"],
+    "y" : df_poke["Arceus"]
 })
 
 #Initiate tools for figure
 select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
 
 #Initiate y_max for y_range
-y_max = max(df_poke_new_new[["Charizard","Arceus"]].max())
+y_max = max(df_poke[["Charizard","Arceus"]].max())
 
 #Initiate Figure
 fig = figure(x_range = stats, 
@@ -89,21 +89,21 @@ def update_fig(attr, old, new):
     selection2 = select2.value
     
     new_data1 = {
-        "x" : df_poke_new_new["stats"],
-        "y" : df_poke_new_new[selection1]
+        "x" : df_poke["stats"],
+        "y" : df_poke[selection1]
     }
     new_data2 = {
-        "x" : df_poke_new_new["stats"],
-        "y" : df_poke_new_new[selection2]
+        "x" : df_poke["stats"],
+        "y" : df_poke[selection2]
     } 
     
     source1.data = new_data1
     source2.data = new_data2
-    y_max = max(df_poke_new_new[[selection1,selection2]].max())
+    y_max = max(df_poke[[selection1,selection2]].max())
     fig.y_range = Range1d(0, y_max + (y_max / 3))
 
 #Initiate options for select (all name excluding "stats")
-options = df_poke_new_new.columns.to_list()
+options = df_poke.columns.to_list()
 del options[0]
 
 #Initiate Select dropdown 1
