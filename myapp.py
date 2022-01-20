@@ -29,8 +29,8 @@ df_poke.columns.name = None
 # Bokeh libraries
 from bokeh.io import curdoc
 from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource, Select, Range1d, HoverTool
-from bokeh.layouts import row, column, gridplot, widgetbox
+from bokeh.models import ColumnDataSource, Select, HoverTool
+from bokeh.layouts import row, column, gridplot
 from bokeh.models.widgets import Tabs, Panel
 from bokeh.transform import dodge
 
@@ -44,18 +44,14 @@ source2 = ColumnDataSource(data={
     "y" : df_poke["Arceus"]
 })
 
-"""Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)"""
+#Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
-"""tooltips = [
-            ('Ket','$x'),
-            ('Power', '$y{0}'),
-           ]"""
+tooltips = [
+            ("$x",": ","$y{0}"),
+           ]
 
 #Initiate tools for figure
 select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
-
-#Initiate y_max for y_range
-y_max = max(df_poke[["Charizard","Arceus"]].max())
 
 #Initiate Figure
 fig = figure(x_range = stats,
@@ -86,7 +82,7 @@ fig.vbar(x = dodge('x', 0.15, range = fig.x_range),
         )
 
 # Menambahkan Hover
-""""fig.add_tools(HoverTool(tooltips=tooltips))"""
+fig.add_tools(HoverTool(tooltips=tooltips))
 
 #Set Legend
 fig.legend.click_policy = "mute"
