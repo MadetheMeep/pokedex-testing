@@ -46,9 +46,9 @@ source2 = ColumnDataSource(data={
 
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
-tooltips = [
-            ("$x",": ","$y{0}"),
-           ]
+#tooltips = [
+            #("$x",": ","$y{0}"),
+           #]
 
 #Initiate tools for figure
 select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
@@ -82,7 +82,7 @@ fig.vbar(x = dodge('x', 0.15, range = fig.x_range),
         )
 
 # Menambahkan Hover
-fig.add_tools(HoverTool(tooltips=tooltips))
+#fig.add_tools(HoverTool(tooltips=tooltips))
 
 #Set Legend
 fig.legend.click_policy = "mute"
