@@ -128,3 +128,4 @@ select2.on_change('value', update_fig)
 layout = row(column(select1, select2), fig)
 
 curdoc().add_root(layout)
+#test
