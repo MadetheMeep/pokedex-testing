@@ -51,8 +51,7 @@ select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
 y_max = max(df_poke[["Charizard","Arceus"]].max())
 
 #Initiate Figure
-fig = figure(x_range = stats, 
-             y_range = (0, y_max + (y_max / 3)), 
+fig = figure(x_range = stats,
              plot_width = 650, 
              plot_height = 700, 
              title="Pokemon Stats Comparison", 
@@ -99,8 +98,6 @@ def update_fig(attr, old, new):
     
     source1.data = new_data1
     source2.data = new_data2
-    y_max = max(df_poke[[selection1,selection2]].max())
-    fig.y_range = Range1d(0, y_max + (y_max / 3))
 
 #Initiate options for select (all name excluding "stats")
 options = df_poke.columns.to_list()
