@@ -31,21 +31,20 @@ from bokeh.io import curdoc
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource, Select, HoverTool
 from bokeh.layouts import row, column, gridplot
-from bokeh.models.widgets import Tabs, Panel
+from bokeh.models.widgets import Tabs, Panel, RadioButtonGroup
 from bokeh.transform import dodge
 
 #Initiate Sources
 source1 = ColumnDataSource(data={
     "x" : df_poke["stats"],
-    "y" : df_poke["Charizard"]
+    "y" : df_poke["Charizard"],
+    "color": ['salmon' for i in range(6)]
 })
 source2 = ColumnDataSource(data={
     "x" : df_poke["stats"],
-    "y" : df_poke["Arceus"]
+    "y" : df_poke["Arceus"],
+    "color": ['royalblue' for i in range(6)]
 })
-
-color1 = "salmon"
-color2 = "royalblue"
 
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
@@ -75,9 +74,9 @@ fig_ver.y_range.start = 0
 #Initate vertical bar 1
 fig_ver.vbar(x = dodge("x", -0.15, range = fig_ver.x_range), 
          top = "y", 
-         width = 0.25,
-         source = source1, 
-         color = color1,
+         width = 0.25, 
+         color = "color",
+         source = source1,
          legend_label = "Pokemon 1",
          muted_alpha = 0.2
         )
@@ -85,9 +84,9 @@ fig_ver.vbar(x = dodge("x", -0.15, range = fig_ver.x_range),
 #Initiate vertical bar 2
 fig_ver.vbar(x = dodge('x', 0.15, range = fig_ver.x_range), 
          top = "y", 
-         width = 0.25,
-         source = source2, 
-         color = color2, 
+         width = 0.25, 
+         color = "color",
+         source = source2,
          legend_label = "Pokemon 2",
          muted_alpha=0.2
         )
@@ -114,8 +113,9 @@ fig_hor.x_range.start = 0
 fig_hor.hbar(y = dodge("x", -0.15, range = fig_hor.y_range), 
          right = "y", 
          height = 0.25,
-         source = source1, 
-         color = color1, 
+         color = "color",
+         source = source1,
+         hover_color = "red",
          legend_label = "Pokemon 1",
          muted_alpha = 0.2
         )
@@ -124,8 +124,8 @@ fig_hor.hbar(y = dodge("x", -0.15, range = fig_hor.y_range),
 fig_hor.hbar(y = dodge('x', 0.15, range = fig_hor.y_range), 
          right = "y", 
          height = 0.25,
+         color = "color",
          source = source2, 
-         color = color2, 
          legend_label = "Pokemon 2",
          muted_alpha=0.2
         )
@@ -144,16 +144,17 @@ def update_fig(attr, old, new):
     
     new_data1 = {
         "x" : df_poke["stats"],
-        "y" : df_poke[selection1]
+        "y" : df_poke[selection1],
+        "color" : [RBG1.value for i in range(6)]
     }
     new_data2 = {
         "x" : df_poke["stats"],
-        "y" : df_poke[selection2]
+        "y" : df_poke[selection2],
+        "color" : [RBG2.value for i in range(6)]
     } 
     
     source1.data = new_data1
     source2.data = new_data2
-    color1 = "green"
 
 #Initiate options for select (all name excluding "stats")
 options = df_poke.columns.to_list()
@@ -177,9 +178,24 @@ select2 = Select(
 select1.on_change('value', update_fig)
 select2.on_change('value', update_fig)
 
+#Initiate Radio Button Group 1
+RBG1 = RadioButtonGroup(
+    labels=['salmon', 'royalblue'],
+    active=0
+)
+
+#Initiate Radio Button Group 2
+RBG2 = RadioButtonGroup(
+    labels=['salmon', 'royalblue'],
+    active=1
+)
+
+RBG1.on_change('active', update_fig)
+RBG2.on_change('active', update_fig)
+
 #set layout
-layout_ver = row(column(select1, select2), fig_ver)
-layout_hor = row(column(select1, select2), fig_hor)
+layout_ver = row(column(select1, RBG1, select2, RBG2), fig_ver)
+layout_hor = row(column(select1, RBG1, select2, RBG2), fig_hor)
 
 #set panel
 panel_ver = Panel(child=layout_ver, title='Vertical Bar')
@@ -189,5 +205,5 @@ panel_hor = Panel(child=layout_hor, title='Horizontal Bar')
 tabs = Tabs(tabs=[panel_ver, panel_hor])
 
 curdoc().add_root(tabs)
-#test
-show(tabs)
+
+color1 = "green"
