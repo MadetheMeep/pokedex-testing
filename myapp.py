@@ -176,14 +176,14 @@ del options[0]
 #Initiate Select dropdown 1
 select1 = Select(
     options = options,
-    title = "Choose Pokemon 1 (red)",
+    title = "Choose Pokemon 1",
     value = "Charizard"
 )
 
 #Initiate Select dropdown 2
 select2 = Select(
     options = options,
-    title = "Choose Pokemon 2 (blue)",
+    title = "Choose Pokemon 2",
     value = "Arceus"
 )
 
