@@ -153,6 +153,7 @@ def update_fig(attr, old, new):
     
     source1.data = new_data1
     source2.data = new_data2
+    color1 = "green"
 
 #Initiate options for select (all name excluding "stats")
 options = df_poke.columns.to_list()
@@ -188,7 +189,5 @@ panel_hor = Panel(child=layout_hor, title='Horizontal Bar')
 tabs = Tabs(tabs=[panel_ver, panel_hor])
 
 curdoc().add_root(tabs)
-
-color1 = "green"
 #test
 show(tabs)
