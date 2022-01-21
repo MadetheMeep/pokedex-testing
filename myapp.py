@@ -34,20 +34,20 @@ from bokeh.layouts import row, column, gridplot
 from bokeh.models.widgets import Tabs, Panel, RadioButtonGroup
 from bokeh.transform import dodge
 
+#Initiate Color Map
+color_map = ["salmon", "royalblue", "palegreen", "gold"]
+
 #Initiate Sources
 source1 = ColumnDataSource(data={
     "x" : df_poke["stats"],
     "y" : df_poke["Charizard"],
-    "color": ['salmon' for i in range(6)]
+    "color": [color_map[0] for i in range(6)]
 })
 source2 = ColumnDataSource(data={
     "x" : df_poke["stats"],
     "y" : df_poke["Arceus"],
-    "color": ['royalblue' for i in range(6)]
+    "color": [color_map[1] for i in range(6)]
 })
-
-#Initiate Color
-color_map = ["salmon", "royalblue"]
 
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
@@ -181,16 +181,19 @@ select2 = Select(
 select1.on_change('value', update_fig)
 select2.on_change('value', update_fig)
 
+#set color labels
+color_labels = ["red","blue","yellow","green"]
+
 #Initiate Radio Button Group 1
 RBG1 = RadioButtonGroup(
-    labels=['red', 'blue'],
-    active=0
+    labels = color_labels,
+    active = 0
 )
 
 #Initiate Radio Button Group 2
 RBG2 = RadioButtonGroup(
-    labels=['red', 'blue'],
-    active=1
+    labels = color_labels,
+    active = 1
 )
 
 RBG1.on_change('active', update_fig)
