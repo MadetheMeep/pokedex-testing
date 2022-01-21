@@ -35,8 +35,8 @@ from bokeh.models.widgets import Tabs, Panel, RadioButtonGroup
 from bokeh.transform import dodge
 
 #Initiate Color Map
-color_map = ["salmon", "royalblue", "palegreen", "gold"]
-color_hover = ["red", "blue", "green", "yellow"]
+color_map = ["salmon", "royalblue", "palegreen", "#fdff9a"]
+color_hover = ["red", "blue", "lime", "yellow"]
 
 #Initiate Sources
 source1 = ColumnDataSource(data={
