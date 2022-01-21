@@ -61,7 +61,7 @@ fig_width = 800
 fig_height = 650
 
 #Initiate tools for figure
-select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
+select_tools = ["pan", "wheel_zoom", "save", "reset"]
 
 #Initiate Vertical Bar Figure
 fig_ver = figure(x_range = stats,
@@ -69,7 +69,7 @@ fig_ver = figure(x_range = stats,
              plot_height = fig_height,
              x_axis_label = "Stats", 
              y_axis_label = "Value",
-             title="Pokemon Stats Comparison",
+             title = "Pokemon Stats Comparison",
              tools = select_tools
             )
 fig_ver.y_range.start = 0
@@ -91,7 +91,7 @@ fig_ver.vbar(x = dodge('x', 0.15, range = fig_ver.x_range),
          color = "color",
          source = source2,
          legend_label = "Pokemon 2",
-         muted_alpha=0.2
+         muted_alpha = 0.2
         )
 
 #Menambahkan Hover
@@ -107,7 +107,7 @@ fig_hor = figure(y_range = stats,
              plot_height = fig_height,
              x_axis_label = "Value", 
              y_axis_label = "Stats",
-             title="Pokemon Stats Comparison", 
+             title = "Pokemon Stats Comparison", 
              tools = select_tools
             )
 fig_hor.x_range.start = 0
@@ -130,7 +130,7 @@ fig_hor.hbar(y = dodge('x', 0.15, range = fig_hor.y_range),
          color = "color",
          source = source2, 
          legend_label = "Pokemon 2",
-         muted_alpha=0.2
+         muted_alpha = 0.2
         )
 
 #Menambahkan Hover
@@ -144,16 +144,18 @@ fig_hor.legend.location = "top_right"
 def update_fig(attr, old, new):
     selection1 = select1.value
     selection2 = select2.value
+    color1 = color_map[RBG1.active]
+    color2 = color_map[RBG2.active]
     
     new_data1 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection1],
-        "color" : [color_map[RBG1.active] for i in range(6)]
+        "color" : [color1 for i in range(6)]
     }
     new_data2 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection2],
-        "color" : [color_map[RBG2.active] for i in range(6)]
+        "color" : [color2 for i in range(6)]
     } 
     
     source1.data = new_data1
@@ -178,11 +180,11 @@ select2 = Select(
 )
 
 #Detect value changes in select dropdowns
-select1.on_change('value', update_fig)
-select2.on_change('value', update_fig)
+select1.on_change("value", update_fig)
+select2.on_change("value", update_fig)
 
 #set color labels
-color_labels = ["red","blue","yellow","green"]
+color_labels = ["red", "blue", "green", "yellow"]
 
 #Initiate Radio Button Group 1
 RBG1 = RadioButtonGroup(
@@ -196,20 +198,19 @@ RBG2 = RadioButtonGroup(
     active = 1
 )
 
-RBG1.on_change('active', update_fig)
-RBG2.on_change('active', update_fig)
+RBG1.on_change("active", update_fig)
+RBG2.on_change("active", update_fig)
 
 #set layout
 layout_ver = row(column(select1, RBG1, select2, RBG2), fig_ver)
 layout_hor = row(column(select1, RBG1, select2, RBG2), fig_hor)
 
 #set panel
-panel_ver = Panel(child=layout_ver, title='Vertical Bar')
-panel_hor = Panel(child=layout_hor, title='Horizontal Bar')
+panel_ver = Panel(child = layout_ver, title = "Vertical Bar")
+panel_hor = Panel(child = layout_hor, title = "Horizontal Bar")
 
 #set tabs
-tabs = Tabs(tabs=[panel_ver, panel_hor])
+tabs = Tabs(tabs = [panel_ver, panel_hor])
 
 curdoc().add_root(tabs)
-
-color1 = "green"
+curdoc().title = "Visdat Kelompok 11 Pokemon"
