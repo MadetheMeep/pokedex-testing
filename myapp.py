@@ -46,6 +46,9 @@ source2 = ColumnDataSource(data={
     "color": ['royalblue' for i in range(6)]
 })
 
+#Initiate Color
+color_map = ["salmon", "royalblue"]
+
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
 tooltips = [
@@ -145,12 +148,12 @@ def update_fig(attr, old, new):
     new_data1 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection1],
-        "color" : [RBG1.value for i in range(6)]
+        "color" : [color_map[RBG1.active] for i in range(6)]
     }
     new_data2 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection2],
-        "color" : [RBG2.value for i in range(6)]
+        "color" : [color_map[RBG2.active] for i in range(6)]
     } 
     
     source1.data = new_data1
@@ -180,13 +183,13 @@ select2.on_change('value', update_fig)
 
 #Initiate Radio Button Group 1
 RBG1 = RadioButtonGroup(
-    labels=['salmon', 'royalblue'],
+    labels=['red', 'blue'],
     active=0
 )
 
 #Initiate Radio Button Group 2
 RBG2 = RadioButtonGroup(
-    labels=['salmon', 'royalblue'],
+    labels=['red', 'blue'],
     active=1
 )
 
