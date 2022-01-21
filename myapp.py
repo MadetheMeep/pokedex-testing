@@ -36,17 +36,20 @@ from bokeh.transform import dodge
 
 #Initiate Color Map
 color_map = ["salmon", "royalblue", "palegreen", "gold"]
+color_hover = ["red", "blue", "green", "yellow"]
 
 #Initiate Sources
 source1 = ColumnDataSource(data={
     "x" : df_poke["stats"],
     "y" : df_poke["Charizard"],
-    "color": [color_map[0] for i in range(6)]
+    "color": [color_map[0] for i in range(6)],
+    "hover": [color_hover[0] for i in range(6)]
 })
 source2 = ColumnDataSource(data={
     "x" : df_poke["stats"],
     "y" : df_poke["Arceus"],
-    "color": [color_map[1] for i in range(6)]
+    "color": [color_map[1] for i in range(6)],
+    "hover": [color_hover[1] for i in range(6)]
 })
 
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
@@ -79,6 +82,7 @@ fig_ver.vbar(x = dodge("x", -0.15, range = fig_ver.x_range),
          top = "y", 
          width = 0.25, 
          color = "color",
+         hover_color = "hover",
          source = source1,
          legend_label = "Pokemon 1",
          muted_alpha = 0.2
@@ -89,6 +93,7 @@ fig_ver.vbar(x = dodge('x', 0.15, range = fig_ver.x_range),
          top = "y", 
          width = 0.25, 
          color = "color",
+         hover_color = "hover",
          source = source2,
          legend_label = "Pokemon 2",
          muted_alpha = 0.2
@@ -117,8 +122,8 @@ fig_hor.hbar(y = dodge("x", -0.15, range = fig_hor.y_range),
          right = "y", 
          height = 0.25,
          color = "color",
+         hover_color = "hover",
          source = source1,
-         hover_color = "red",
          legend_label = "Pokemon 1",
          muted_alpha = 0.2
         )
@@ -128,6 +133,7 @@ fig_hor.hbar(y = dodge('x', 0.15, range = fig_hor.y_range),
          right = "y", 
          height = 0.25,
          color = "color",
+         hover_color = "hover",
          source = source2, 
          legend_label = "Pokemon 2",
          muted_alpha = 0.2
@@ -144,18 +150,20 @@ fig_hor.legend.location = "top_right"
 def update_fig(attr, old, new):
     selection1 = select1.value
     selection2 = select2.value
-    color1 = color_map[RBG1.active]
-    color2 = color_map[RBG2.active]
+    color1 = RBG1.active
+    color2 = RBG2.active
     
     new_data1 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection1],
-        "color" : [color1 for i in range(6)]
+        "color": [color_map[color1] for i in range(6)],
+        "hover": [color_hover[color1] for i in range(6)]
     }
     new_data2 = {
         "x" : df_poke["stats"],
         "y" : df_poke[selection2],
-        "color" : [color2 for i in range(6)]
+        "color": [color_map[color2] for i in range(6)],
+        "hover": [color_hover[color2] for i in range(6)]
     } 
     
     source1.data = new_data1
