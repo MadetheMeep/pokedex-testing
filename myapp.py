@@ -44,6 +44,9 @@ source2 = ColumnDataSource(data={
     "y" : df_poke["Arceus"]
 })
 
+color1 = "salmon"
+color2 = "royalblue"
+
 #Mengatur Tooltips untuk Hover (Jika menggerakan mouse ke gambar, menampilkan data)
 
 tooltips = [
@@ -51,43 +54,88 @@ tooltips = [
             ("Value","@y"),
            ]
 
+#Figure Size Variable
+fig_width = 800
+fig_height = 650
+
 #Initiate tools for figure
 select_tools = ['pan', 'wheel_zoom', 'save', 'reset']
 
-#Initiate Figure
-fig = figure(x_range = stats,
-             plot_width = 650, 
-             plot_height = 700, 
-             title="Pokemon Stats Comparison", 
+#Initiate Vertical Bar Figure
+fig_ver = figure(x_range = stats,
+             plot_width = fig_width, 
+             plot_height = fig_height,
+             x_axis_label = "Stats", 
+             y_axis_label = "Value",
+             title="Pokemon Stats Comparison",
              tools = select_tools
             )
+fig_ver.y_range.start = 0
 
-#Initate bar 1
-fig.vbar(x = dodge("x", -0.15, range = fig.x_range), 
+#Initate vertical bar 1
+fig_ver.vbar(x = dodge("x", -0.15, range = fig_ver.x_range), 
          top = "y", 
          width = 0.25,
          source = source1, 
-         color = "salmon", 
+         color = color1,
          legend_label = "Pokemon 1",
          muted_alpha = 0.2
         )
 
-#Initiate bar 2
-fig.vbar(x = dodge('x', 0.15, range = fig.x_range), 
+#Initiate vertical bar 2
+fig_ver.vbar(x = dodge('x', 0.15, range = fig_ver.x_range), 
          top = "y", 
          width = 0.25,
          source = source2, 
-         color = "royalblue", 
+         color = color2, 
          legend_label = "Pokemon 2",
          muted_alpha=0.2
         )
 
-# Menambahkan Hover
-fig.add_tools(HoverTool(tooltips=tooltips))
+#Menambahkan Hover
+fig_ver.add_tools(HoverTool(tooltips=tooltips))
 
 #Set Legend
-fig.legend.click_policy = "mute"
-fig.legend.location = "top_left"
+fig_ver.legend.click_policy = "mute"
+fig_ver.legend.location = "top_left"
+
+#Initiate Horizontal Bar Figure
+fig_hor = figure(y_range = stats,
+             plot_width = fig_width, 
+             plot_height = fig_height,
+             x_axis_label = "Value", 
+             y_axis_label = "Stats",
+             title="Pokemon Stats Comparison", 
+             tools = select_tools
+            )
+fig_hor.x_range.start = 0
+
+#Initate horizontal bar 1
+fig_hor.hbar(y = dodge("x", -0.15, range = fig_hor.y_range), 
+         right = "y", 
+         height = 0.25,
+         source = source1, 
+         color = color1, 
+         legend_label = "Pokemon 1",
+         muted_alpha = 0.2
+        )
+
+#Initiate horizontal bar 2
+fig_hor.hbar(y = dodge('x', 0.15, range = fig_hor.y_range), 
+         right = "y", 
+         height = 0.25,
+         source = source2, 
+         color = color2, 
+         legend_label = "Pokemon 2",
+         muted_alpha=0.2
+        )
+
+#Menambahkan Hover
+fig_hor.add_tools(HoverTool(tooltips=tooltips))
+
+#Set Legend
+fig_hor.legend.click_policy = "mute"
+fig_hor.legend.location = "top_right"
 
 #Define update figure function
 def update_fig(attr, old, new):
@@ -129,7 +177,18 @@ select1.on_change('value', update_fig)
 select2.on_change('value', update_fig)
 
 #set layout
-layout = row(column(select1, select2), fig)
+layout_ver = row(column(select1, select2), fig_ver)
+layout_hor = row(column(select1, select2), fig_hor)
 
-curdoc().add_root(layout)
+#set panel
+panel_ver = Panel(child=layout_ver, title='Vertical Bar')
+panel_hor = Panel(child=layout_hor, title='Horizontal Bar')
+
+#set tabs
+tabs = Tabs(tabs=[panel_ver, panel_hor])
+
+curdoc().add_root(tabs)
+
+color1 = "green"
 #test
+show(tabs)
